@@ -18,179 +18,35 @@
 	<script type="text/javascript" src="./js/custom.js"></script>
 	<script type="text/javascript" >
 		$(document).ready(function(){
-			
-			console.log(' ready ');
 
-			var tsId = '1521444685761546';
+	        //获取url中的参数
+	        function getUrlParam(name) {
+	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+	            if (r != null) return unescape(r[2]); return null; //返回参数值
+	        }
 
-			$("a#a_submit_withdraw").textTsId
-			$("#textTsId").attr("value", tsId);
+	        var tsIdValue = getUrlParam('tsId');
 
-			$("a#a_charge").click(function(){
-				console.log('click a_charge');
-
-				//<<>>test tsId值的获取
-				var tsIdValue = $("#textTsId").val();
-				console.log(tsIdValue);
-
-				// 跳转至支付宝app页面付款
-				var curTs = new Date().getTime();
-				var alipayChargeUrl = "https://qr.alipay.com/fkx066114rhlthuaapq1gf8?t=" + curTs;
-				$(location).prop('href', alipayChargeUrl);
-			});
-			$("a#a_withdraw").click(function(){
-				console.log('click a_withdraw');
-			});
-			
-			$("a#a_submit_withdraw").click(function(){
-				console.log('click a_submit_withdraw');
-				var amount = $("#text_withdraw_amount").val();
-				
-				var payerLoginId = $("#em_payerLoginId").val();
-				var buyerName = $("#em_buyerName").val();
-
-				var postData = {
-					"payerLoginId" : payerLoginId,
-					"buyerName" : buyerName,
-					"amount" : amount
-				};
-
-				var postUrl = "https://leancloud.cn/1.1/functions/alipay_bot_submit_withdraw";
-			
-			    $.ajax({
-                    url: postUrl,
-                    type: 'post',
-                    dataType: 'json',
-                    // data: '{"payerLoginId":"417279043@qq.com","buyerName":"庞洲","amount":"0.02"}',
-                    data: JSON.stringify(postData),
-                    cache: false,
-                    headers: { 
-                    	'X-LC-Id' : 'BxGnacODP6tVhw0s4NOlt4J3-gzGzoHsz',
-						'X-LC-Key' : 'WPB91WUK9OKAJu0uyYGPymlQ',
-                        'Content-Type': 'application/json'
-                    },                
-                    success: function(res){
-                        if (res.code === 200) {
-                            
-                        }
-                    },
-                    error: function(e) {
- 
-                    }
-                });
-			});
+	        if (tsIdValue) {
+	        	// 带参，跳转bot_index页面
+        		var botIndexUrl = "bot_index.html?tsId=" + tsIdValue;
+				$(location).prop('href', botIndexUrl);
+	        } else {
+	        	// 不带参，跳转form页面
+	        	var formUrl = "form.html"
+	        	// $(location).prop('href', formUrl);
+	        }
 		});
 	</script>
 </head>
 <body class="left-sidebar">
-	<div id="preloader" style="display: none;"> 
-	 <div id="status" style="display: none;"> 
+	<div id="preloader-loading" style="display: run-in"> 
+	 <div id="status-loading" style="display: run-in"> 
 		<div class="preloader-logo"></div> 
 		<h3 class="center-text">Welcome</h3> 
 		<p class="center-text smaller-text"> We're loading the content, give us a second. This won't take long! </p> 
 	 </div> 
-	</div>
-	<div class="gallery-fix"></div> 
-	<div id="header-fixed" class="header-style-1"> 
-	 <!-- <a class="header-1 open-left-sidebar" href="https://www.enableds.com/products/promobile/page-login.html#"><i class="fa fa-navicon"></i></a>  -->
-	 <a class="header-logo"><img src="./pic/logo-dark2.png" alt="img" /></a> 
-	 <!-- <a class="header-2 open-right-sidebar" href="https://www.enableds.com/products/promobile/page-login.html#"><i class="fa fa-envelope-o"></i></a>  -->
-	</div>
-	<div class="snap-drawers">
-		<div id="content" class="snap-content" style="overflow-y: hidden;">
-			<div class="content" style="padding-left: 20px; padding-right: 20px;">
-				<div class="header-clear"></div>
-				<div class="page-profile">
-					<div class="page-profile-header container-fullscreen" style="background-image: url(./pic/zhifubao-1.jpg); margin-left: -21px; width: 620px;">
-						<!-- <img src="./pic/5s.jpg" alt="img"> -->
-						<h3>余额: 35.6￥</h3>
-						<em id="em_payerLoginId">42567586@qq.com</em>
-						<em id="em_buyerName">张脆瓜</em>
-						<input type="hidden" name="tsId" id="textTsId" value="tsIdValue">
-						<div class="overlay bg-black"></div>
-						<div class="follow-buttons">
-							<a href="#" id="a_charge">充值</a>
-							<a href="#" class="simple-modal" id="a_withdraw">提现</a>
-						</div>
-						<div class="simple-modal-content modal-content rounded-modal">
-							<img src="images/pictures/3ww.jpg" alt="img" class="responsive-image">
-							<h4>请输入提现金额</h4>
-							<input class="text-field red-field" id="text_withdraw_amount" type="number" value="">
-							<a href="#" class="button button-green button-round button-center" id="a_submit_withdraw">提交</a>
-							<a href="#" class="button button-red button-small button-round round-button modal-close button-center">取消</a>
-						</div>
-					</div>
-					<div class="decoration"></div>
-					<div class="container no-bottom">
-						<div class="container-fullscreen heading-style-3 bg-4" style="background-image: url(https://www.enableds.com/products/promobile/images/pictures/3.jpg); margin-left: -21px; width: 620px;">
-							<h3 class="heading-title">使用说明</h3>
-							<em class="heading-subtitle">按照图示方法操作</em>
-							<div class="overlay bg-black"></div>
-						</div>
-						<p>
-							Columns that always stay the same even if you're using a mobile or a tablet. Scroll below to see
-							columns that adapt to different resolutions
-						</p>
-						<div class="one-half">
-							<h5>1/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/alipay_index.jpeg" src="images/pictures/1w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half last-column">
-							<h5>2/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/2w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half">
-							<h5>3/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/1w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half last-column">
-							<h5>4/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/2w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="decoration"></div>
-						<div class="container-fullscreen heading-style-3 bg-4" style="margin-left: -21px; width: 620px;">
-							<h3 class="heading-title">其他说明</h3>
-							<em class="heading-subtitle">使用协议</em>
-							<div class="overlay bg-black"></div>
-						</div>
-					</div>
-					<div class="container">
-						<div class="one-third-responsive">
-							<h5>Ordered List</h5>
-							<p>
-								With 3 level nested elements
-							</p>
-							<ol>
-								<li>提现通常1-2分钟即可到账，超过15分钟未到账请联系划蒜小客服</li>
-								<li>一切转账操作结果及提现到账结果以支付宝官方APP的记录为准</li>
-								<li>充值不限次数，但提现每天最多3次</li>
-								<li>单次提现金额超过100元需要人工审核</li>
-								<li>禁止使用本服务恶意套现</li>
-							</ol>
-						</div>
-					</div>
-					<div class="decoration"></div>
-					<div class="footer">
-						<p class="center-text">Copyright 2015. All rights reserved.</p>
-						<div class="footer-icons">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<a href="#" class="back-to-top-badge back-to-top-badge-visible">Back to top</a>
 	</div>
 </body>
 </html>
