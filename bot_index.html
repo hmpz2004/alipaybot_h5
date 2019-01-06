@@ -6,15 +6,15 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" /> 
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
 	<link rel="shortcut icon" href="https://www.enableds.com/products/promobile/images/splash/favicon.ico" type="image/x-icon" /> 
-	<title>划蒜小妹</title> 
-	<link href="./css/style.css" rel="stylesheet" type="text/css" /> 
-	<link href="./css/framework.css" rel="stylesheet" type="text/css" /> 
-	<link href="./css/font-awesome.css" rel="stylesheet" type="text/css" /> 
-	<link href="./css/animate.css" rel="stylesheet" type="text/css" /> 
+	<title>划蒜小妹</title>
 	<script type="text/javascript" src="./js/jquery.js"></script> 
 	<script type="text/javascript" src="./js/jqueryui.js"></script> 
-	<script type="text/javascript" src="./js/framework-plugins.js"></script> 
-	<script type="text/javascript" src="./js/custom.js"></script>
+	<!-- <script type="text/javascript" src="./js/framework-plugins.js"></script>  -->
+	<!-- <script type="text/javascript" src="./js/custom.js"></script> -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> 
+	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+	
 	<script type="text/javascript" >
 		$(document).ready(function(){
 
@@ -43,7 +43,7 @@
                 	'X-LC-Id' : 'BxGnacODP6tVhw0s4NOlt4J3-gzGzoHsz',
 					'X-LC-Key' : 'WPB91WUK9OKAJu0uyYGPymlQ',
                     'Content-Type': 'application/json'
-                },                
+                },
                 success: function(res){
                 	console.log(JSON.stringify(res));
                     if (res.result) {
@@ -60,8 +60,8 @@
 
                     		// 设置页面的几个值
                     		$("#h3_balance").text("余额 : " + balance + "￥");
-                    		$("#em_payerLoginId").text(payerLoginId);
-                    		$("#em_buyerName").text(buyerName);
+                    		$("#em_payerLoginId").attr("value", payerLoginId);
+                    		$("#em_buyerName").attr("value", buyerName);
                     		$("#textTsId").attr("value", tsIdValue);
                     	}
                     }
@@ -71,9 +71,9 @@
                 }
             });
 
-			$("#textTsId").attr("value", tsId);
+			$("#textTsId").attr("value", tsIdValue);
 
-			$("a#a_charge").click(function(){
+			$("#a_charge").click(function(){
 				console.log('click a_charge');
 
 				//<<>>test tsId值的获取
@@ -85,11 +85,8 @@
 				var alipayChargeUrl = "https://qr.alipay.com/fkx066114rhlthuaapq1gf8?t=" + curTs;
 				$(location).prop('href', alipayChargeUrl);
 			});
-			$("a#a_withdraw").click(function(){
-				console.log('click a_withdraw');
-			});
 			
-			$("a#a_submit_withdraw").click(function(){
+			$("#a_withdraw").click(function(){
 				console.log('click a_submit_withdraw');
 				var amount = $("#text_withdraw_amount").val();
 				
@@ -129,115 +126,72 @@
 		});
 	</script>
 </head>
-<body class="left-sidebar">
-	<div id="preloader" style="display: none;"> 
-	 <div id="status" style="display: none;"> 
-		<div class="preloader-logo"></div> 
-		<h3 class="center-text">Welcome</h3> 
-		<p class="center-text smaller-text"> We're loading the content, give us a second. This won't take long! </p> 
-	 </div> 
-	</div>
-	<div class="gallery-fix"></div> 
-	<div id="header-fixed" class="header-style-1"> 
-	 <!-- <a class="header-1 open-left-sidebar" href="https://www.enableds.com/products/promobile/page-login.html#"><i class="fa fa-navicon"></i></a>  -->
-	 <a class="header-logo"><img src="./pic/logo-dark2.png" alt="img" /></a> 
-	 <!-- <a class="header-2 open-right-sidebar" href="https://www.enableds.com/products/promobile/page-login.html#"><i class="fa fa-envelope-o"></i></a>  -->
-	</div>
-	<div class="snap-drawers">
-		<div id="content" class="snap-content" style="overflow-y: hidden;">
-			<div class="content" style="padding-left: 20px; padding-right: 20px;">
-				<div class="header-clear"></div>
-				<div class="page-profile">
-					<div class="page-profile-header container-fullscreen" style="background-image: url(./pic/zhifubao-1.jpg); margin-left: -21px; width: 620px;">
-						<!-- <img src="./pic/5s.jpg" alt="img"> -->
-						<h3 id="h3_balance">余额: 0.00￥</h3>
-						<em id="em_payerLoginId"></em>
-						<em id="em_buyerName"></em>
-						<input type="hidden" name="tsId" id="textTsId" value="tsIdValue">
-						<div class="overlay bg-black"></div>
-						<div class="follow-buttons">
-							<a href="#" id="a_charge">充值</a>
-							<a href="#" class="simple-modal" id="a_withdraw">提现</a>
-						</div>
-						<div class="simple-modal-content modal-content rounded-modal">
-							<img src="images/pictures/3ww.jpg" alt="img" class="responsive-image">
-							<h4>请输入提现金额</h4>
-							<input class="text-field red-field" id="text_withdraw_amount" type="number" value="">
-							<a href="#" class="button button-green button-round button-center" id="a_submit_withdraw">提交</a>
-							<a href="#" class="button button-red button-small button-round round-button modal-close button-center">取消</a>
-						</div>
+<body>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<h3 id="h3_balance"></h3>
+				<form role="form" class="form-inline">
+					<div class="form-group">
+						 <label for="em_payerLoginId">支付宝登录名</label>
+						 <input type="text" class="form-control" id="em_payerLoginId" />
+						 <input type="hidden" name="tsId" id="textTsId" value="tsIdValue">
 					</div>
-					<div class="decoration"></div>
-					<div class="container no-bottom">
-						<div class="container-fullscreen heading-style-3 bg-4" style="background-image: url(https://www.enableds.com/products/promobile/images/pictures/3.jpg); margin-left: -21px; width: 620px;">
-							<h3 class="heading-title">使用说明</h3>
-							<em class="heading-subtitle">按照图示方法操作</em>
-							<div class="overlay bg-black"></div>
-						</div>
-						<p>
-							Columns that always stay the same even if you're using a mobile or a tablet. Scroll below to see
-							columns that adapt to different resolutions
-						</p>
-						<div class="one-half">
-							<h5>1/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/alipay_index.jpeg" src="images/pictures/1w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half last-column">
-							<h5>2/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/2w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half">
-							<h5>3/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/1w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="one-half last-column">
-							<h5>4/4</h5>
-							<img class="preload-image responsive-image half-bottom" data-original="./pic/1ww.jpg" src="images/pictures/2w.jpg" style="display: block;">
-							<p>
-							This column is half the size of the screen, and will stay this way on mobile and tablets.
-							</p>
-						</div>
-						<div class="decoration"></div>
-						<div class="container-fullscreen heading-style-3 bg-4" style="margin-left: -21px; width: 620px;">
-							<h3 class="heading-title">其他说明</h3>
-							<em class="heading-subtitle">使用协议</em>
-							<div class="overlay bg-black"></div>
-						</div>
+					<div class="form-group">
+						 <label for="em_buyerName">姓名</label>
+						 <input type="text" class="form-control" id="em_buyerName" />
 					</div>
-					<div class="container">
-						<div class="one-third-responsive">
-							<h5>Ordered List</h5>
-							<p>
-								With 3 level nested elements
-							</p>
-							<ol>
-								<li>提现通常1-2分钟即可到账，超过15分钟未到账请联系划蒜小客服</li>
-								<li>一切转账操作结果及提现到账结果以支付宝官方APP的记录为准</li>
-								<li>充值不限次数，但提现每天最多3次</li>
-								<li>单次提现金额超过100元需要人工审核</li>
-								<li>禁止使用本服务恶意套现</li>
-							</ol>
-						</div>
+					<div class="form-group">
+						 <label for="text_withdraw_amount">提现金额</label>
+						 <input type="number" class="form-control" id="text_withdraw_amount" />
 					</div>
-					<div class="decoration"></div>
-					<div class="footer">
-						<p class="center-text">Copyright 2015. All rights reserved.</p>
-						<div class="footer-icons">
-						</div>
+				</form>
+				<div class="row clearfix">
+					<div class="col-md-6 column">
+						 <button type="button" id="a_charge" class="btn btn-default btn-danger">充值</button>
+					</div>
+					<div class="col-md-6 column">
+						 <button type="button" id="a_withdraw" class="btn btn-default btn-success">提现</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<a href="#" class="back-to-top-badge back-to-top-badge-visible">Back to top</a>
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div class="page-header">
+					<h1>
+						<small>使用说明</small>
+					</h1>
+				</div>
+				<ol>
+					<li>
+						打开支付宝APP首页，在搜索框输入 641571270 领取红包
+					</li>
+					<li>
+						返回本页面点击充值，输入比红包大的一个充值金额，完成支付宝内的付款
+					</li>
+					<li>
+						返回本页面并刷新，点击提现，1分钟以内会受到本站的现金转账
+					</li>
+				</ol>
+			</div>
+		</div>
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<div class="page-header">
+					<h1>
+						<small>其他事项</small>
+					</h1>
+				</div>
+				<ol>
+					<li>提现通常1-2分钟即可到账，超过15分钟未到账请联系划蒜小客服</li>
+					<li>一切转账操作结果及提现到账结果以支付宝官方APP的记录为准</li>
+					<li>充值不限次数，但提现每天最多3次</li>
+					<li>单次提现金额超过100元需要人工审核</li>
+					<li>禁止使用本服务恶意套现</li>
+				</ol>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
